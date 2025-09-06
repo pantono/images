@@ -61,7 +61,7 @@ class Images
         $image->setFile($file);
         $image->setDateCreated(new \DateTimeImmutable());
         $image->setDeleted(false);
-        $mime = $this->detectMimeType($filename);
+        $mime = $this->detectMimeType($imagePath);
         if ($mime) {
             $image->setMimeType($mime);
         }
