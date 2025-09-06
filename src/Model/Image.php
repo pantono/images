@@ -6,12 +6,14 @@ use Pantono\Storage\Model\StoredFile;
 use Pantono\Contracts\Attributes\Locator;
 use Pantono\Storage\FileStorage;
 use Pantono\Database\Traits\SavableModel;
+use Pantono\Contracts\Attributes\FieldName;
 
 class Image
 {
     use SavableModel;
 
     private ?int $id = null;
+    #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id')]
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
