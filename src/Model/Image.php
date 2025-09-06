@@ -15,7 +15,7 @@ class Image
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
-    private string $mimeType;
+    private ?string $mimeType = null;
 
     public function getId(): ?int
     {
@@ -57,12 +57,12 @@ class Image
         $this->deleted = $deleted;
     }
 
-    public function getMimeType(): string
+    public function getMimeType(): ?string
     {
         return $this->mimeType;
     }
 
-    public function setMimeType(string $mimeType): void
+    public function setMimeType(?string $mimeType): void
     {
         $this->mimeType = $mimeType;
     }
