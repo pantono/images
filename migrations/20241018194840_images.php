@@ -33,7 +33,7 @@ final class Images extends AbstractMigration
         $this->table('image_size')
             ->addColumn('image_id', 'integer', ['signed' => false])
             ->addColumn('size_type_id', 'integer', ['signed' => false])
-            ->addColumn('file_id', 'integer', ['null' => true])
+            ->addColumn('file_id', 'integer', ['null' => true, 'signed' => false])
             ->addColumn('date_created', 'datetime')
             ->addForeignKey('image_id', 'image', 'id')
             ->addForeignKey('size_type_id', 'image_size_type', 'id')
