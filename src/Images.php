@@ -147,7 +147,6 @@ class Images
     private function getImageSizeFromFile(string $path): array
     {
         $im = new \Imagick($path);
-        $size = $im->getSize();
-        return ['width' => $size['columns'], 'height' => $size['rows']];
+        return ['width' => $im->getImageWidth(), 'height' => $im->getImageHeight()];
     }
 }
