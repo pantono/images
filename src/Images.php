@@ -16,6 +16,7 @@ use Pantono\Images\Model\ImageSizeType;
 use Pantono\Images\Model\ImageSize;
 use Imagick;
 use Pantono\Images\Exception\ImageMustByCreatedFirst;
+use JetBrains\PhpStorm\ArrayShape;
 
 class Images
 {
@@ -62,6 +63,9 @@ class Images
         $image->setDateCreated(new \DateTimeImmutable());
         $image->setDeleted(false);
         $mime = $this->detectMimeType($imagePath);
+        $size = $this->getImageSizeFromFile($imagePath);
+        $image->setWidth($size['width']);
+        $image->setHeight($size['height']);
         if ($mime) {
             $image->setMimeType($mime);
         }
@@ -134,5 +138,16 @@ class Images
             return null;
         }
         return finfo_file($fInfo, $filename) ?: null;
+    }
+
+    /**
+     * @return array{width: int, height: int}
+     * @throws \ImagickException
+     */
+    private function getImageSizeFromFile(string $path): array
+    {
+        $im = new \Imagick($path);
+        $size = $im->getSize();
+        return ['width' => $size['columns'], 'height' => $size['rows']];
     }
 }

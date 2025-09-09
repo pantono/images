@@ -17,6 +17,8 @@ class Image
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
+    private int $width;
+    private int $height;
     private ?string $mimeType = null;
 
     public function getId(): ?int
@@ -57,6 +59,26 @@ class Image
     public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
+    }
+
+    public function getWidth(): int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(int $width): void
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight(): int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(int $height): void
+    {
+        $this->height = $height;
     }
 
     public function getMimeType(): ?string

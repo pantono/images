@@ -19,6 +19,8 @@ final class Images extends AbstractMigration
             ->addColumn('date_created', 'datetime')
             ->addColumn('deleted', 'boolean')
             ->addColumn('mime_type', 'string', ['null' => true])
+            ->addColumn('width', 'integer')
+            ->addColumn('height', 'integer')
             ->addForeignKey('file_id', 'stored_file', 'id')
             ->create();
 
