@@ -16,7 +16,7 @@ use Pantono\Images\Model\ImageSizeType;
 use Pantono\Images\Model\ImageSize;
 use Imagick;
 use Pantono\Images\Exception\ImageMustByCreatedFirst;
-use JetBrains\PhpStorm\ArrayShape;
+use Pantono\Storage\Model\StoredFile;
 
 class Images
 {
@@ -64,6 +64,29 @@ class Images
         $image->setDeleted(false);
         $mime = $this->detectMimeType($imagePath);
         $size = $this->getImageSizeFromFile($imagePath);
+        $image->setWidth($size['width']);
+        $image->setHeight($size['height']);
+        if ($mime) {
+            $image->setMimeType($mime);
+        }
+        $this->saveImage($image);
+        return $image;
+    }
+
+    public function createImageFromStoredFile(StoredFile $file): Image
+    {
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file->getFilename();
+        $this->fileStorage->hydrateFileData($file);
+        if (empty($file->getFileData())) {
+            throw new \RuntimeException('File is not an image');
+        }
+        file_put_contents($path, $file->getFileData());
+        $image = new Image();
+        $image->setFile($file);
+        $image->setDateCreated(new \DateTimeImmutable());
+        $image->setDeleted(false);
+        $mime = $this->detectMimeType($path);
+        $size = $this->getImageSizeFromFile($path);
         $image->setWidth($size['width']);
         $image->setHeight($size['height']);
         if ($mime) {
