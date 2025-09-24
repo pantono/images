@@ -173,4 +173,9 @@ class Images
         $im = new \Imagick($path);
         return ['width' => $im->getImageWidth(), 'height' => $im->getImageHeight()];
     }
+
+    public function getSizesForImage(Image $image): array
+    {
+        return $this->hydrator->hydrateSet(ImageSize::class, $this->repository->getSizesForImage($image));
+    }
 }

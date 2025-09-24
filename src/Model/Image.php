@@ -7,6 +7,7 @@ use Pantono\Contracts\Attributes\Locator;
 use Pantono\Storage\FileStorage;
 use Pantono\Database\Traits\SavableModel;
 use Pantono\Contracts\Attributes\FieldName;
+use Pantono\Images\Images;
 
 class Image
 {
@@ -20,6 +21,11 @@ class Image
     private int $width;
     private int $height;
     private ?string $mimeType = null;
+    /**
+     * @var ImageSize[]
+     */
+    #[Locator(methodName: 'getSizesForImage', className: Images::class), FieldName('$this')]
+    private array $sizes = [];
 
     public function getId(): ?int
     {
@@ -94,5 +100,18 @@ class Image
     public function getUrl(): ?string
     {
         return $this->getFile()->getUri();
+    }
+
+    public function getSizes(): array
+    {
+        return $this->sizes;
+    }
+
+    /**
+     * @param ImageSize[] $sizes
+     */
+    public function setSizes(array $sizes): void
+    {
+        $this->sizes = $sizes;
     }
 }
