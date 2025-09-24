@@ -75,7 +75,7 @@ class Images
 
     public function createImageFromStoredFile(StoredFile $file): Image
     {
-        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $file->getFilename();
+        $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . str_replace('\\', '__', $file->getFilename());
         $this->fileStorage->hydrateFileData($file);
         if (empty($file->getFileData())) {
             throw new \RuntimeException('File is not an image');
