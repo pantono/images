@@ -93,6 +93,7 @@ class Images
             $image->setMimeType($mime);
         }
         $this->saveImage($image);
+        unlink($path);
         return $image;
     }
 
