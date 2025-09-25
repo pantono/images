@@ -53,4 +53,9 @@ class ImagesRepository extends MysqlRepository
     {
         return $this->selectSingleRow('image_size_type', 'id', $id);
     }
+
+    public function getSizeById(int $id): ?array
+    {
+        return $this->selectSingleRow('image_size', 'id', $id);
+    }
 }

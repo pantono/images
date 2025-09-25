@@ -17,6 +17,8 @@ use Pantono\Images\Model\ImageSize;
 use Imagick;
 use Pantono\Images\Exception\ImageMustByCreatedFirst;
 use Pantono\Storage\Model\StoredFile;
+use Pantono\Images\Event\PreImageSizeSaveEvent;
+use Pantono\Images\Event\PostImageSizeSaveEvent;
 
 class Images
 {
@@ -114,6 +116,23 @@ class Images
         $this->dispatcher->dispatch($event);
     }
 
+    public function saveImageSize(ImageSize $size): void
+    {
+        $previous = $size->getId() ? $this->getImageSizeById($size->getId()) : null;
+
+        $event = new PreImageSizeSaveEvent();
+        $event->setPrevious($previous);
+        $event->setCurrent($size);
+        $this->dispatcher->dispatch($event);
+
+        $this->repository->saveImageSize($size);
+
+        $event = new PostImageSizeSaveEvent();
+        $event->setCurrent($size);
+        $event->setPrevious($previous);
+        $this->dispatcher->dispatch($event);
+    }
+
     public function createSizeForImage(Image $image, ImageSizeType $imageSizeType): ImageSize
     {
         if ($image->getId() === null) {
@@ -131,6 +150,7 @@ class Images
             throw new UnableToLoadImageData('Unable to load image data for resize');
         }
         $this->fileStorage->uploadFile($newPath, $contents);
+        $this->saveImageSize($imageSize);
         return $imageSize;
     }
 
@@ -172,6 +192,11 @@ class Images
     {
         $im = new \Imagick($path);
         return ['width' => $im->getImageWidth(), 'height' => $im->getImageHeight()];
+    }
+
+    public function getImageSizeById(int $id): ?ImageSize
+    {
+        return $this->hydrator->hydrate(ImageSize::class, $this->repository->getSizeById($id));
     }
 
     public function getSizesForImage(Image $image): array
