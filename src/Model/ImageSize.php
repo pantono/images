@@ -14,7 +14,7 @@ class ImageSize
 
     private ?int $id = null;
     private int $imageId;
-    #[Locator(methodName: 'getSizeTypeById', className: ImageSizeType::class), FieldName('type_id')]
+    #[Locator(methodName: 'getSizeTypeById', className: ImageSizeType::class), FieldName('size_type_id')]
     private ImageSizeType $type;
     #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id')]
     private StoredFile $file;
