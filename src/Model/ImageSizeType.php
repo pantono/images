@@ -8,6 +8,7 @@ class ImageSizeType
     private string $name;
     private int $height;
     private int $width;
+    private bool $bestFit;
 
     public function getId(): ?int
     {
@@ -47,5 +48,15 @@ class ImageSizeType
     public function setWidth(int $width): void
     {
         $this->width = $width;
+    }
+
+    public function isBestFit(): bool
+    {
+        return $this->bestFit;
+    }
+
+    public function setBestFit(bool $bestFit): void
+    {
+        $this->bestFit = $bestFit;
     }
 }

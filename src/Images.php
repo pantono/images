@@ -144,7 +144,7 @@ class Images
         $imageSize->setDateCreated(new \DateTimeImmutable());
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $image->getFile()->getFilename();
         file_put_contents($path, $image->getFile()->getFileData());
-        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight());
+        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit());
         $contents = file_get_contents($newPath);
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
@@ -156,7 +156,7 @@ class Images
         return $imageSize;
     }
 
-    public function performResize(string $sourcePath, int $newWidth, int $newHeight): string
+    public function performResize(string $sourcePath, int $newWidth, int $newHeight, bool $bestFit = false): string
     {
         if (!file_exists($sourcePath)) {
             throw new ImageFilePathDoesNotExist('Image path does not exist for resize');
@@ -166,7 +166,7 @@ class Images
             throw new UnableToLoadImageData('Unable to read image information.');
         }
         $im = new \Imagick($sourcePath);
-        $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1);
+        $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1, $bestFit);
         $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
         $file = pathinfo($sourcePath, PATHINFO_FILENAME);
         $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);

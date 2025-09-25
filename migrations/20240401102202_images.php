@@ -12,6 +12,7 @@ final class Images extends AbstractMigration
             ->addColumn('name', 'string')
             ->addColumn('width', 'integer')
             ->addColumn('height', 'integer')
+            ->addColumn('best_fit', 'boolean')
             ->create();
 
         $this->table('image')
