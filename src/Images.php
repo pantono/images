@@ -149,7 +149,8 @@ class Images
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
         }
-        $this->fileStorage->uploadFile($newPath, $contents);
+        $file = $this->fileStorage->uploadFile($newPath, $contents);
+        $imageSize->setFile($file);
         $this->saveImageSize($imageSize);
         return $imageSize;
     }
