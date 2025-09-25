@@ -149,6 +149,7 @@ class Images
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
         }
+        $newPath = ltrim($newPath, sys_get_temp_dir() . DIRECTORY_SEPARATOR);
         $file = $this->fileStorage->uploadFile($newPath, $contents);
         $imageSize->setFile($file);
         $this->saveImageSize($imageSize);
