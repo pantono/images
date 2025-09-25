@@ -48,4 +48,9 @@ class ImagesRepository extends MysqlRepository
             $imageHistory->setId($id);
         }
     }
+
+    public function getSizeTypeById(int $id): ?array
+    {
+        return $this->selectSingleRow('image_size_type', 'id', $id);
+    }
 }

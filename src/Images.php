@@ -178,4 +178,9 @@ class Images
     {
         return $this->hydrator->hydrateSet(ImageSize::class, $this->repository->getSizesForImage($image));
     }
+
+    public function getSizeTypeById(int $id): ?ImageSizeType
+    {
+        return $this->hydrator->hydrate(ImageSizeType::class, $this->repository->getSizeTypeById($id));
+    }
 }
