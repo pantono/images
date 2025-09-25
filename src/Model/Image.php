@@ -114,4 +114,14 @@ class Image
     {
         $this->sizes = $sizes;
     }
+
+    public function getSizeByType(ImageSizeType $type):?ImageSize
+    {
+        foreach ($this->sizes as $size) {
+            if ($size->getType()->getId() === $type->getId()) {
+                return $size;
+            }
+        }
+        return null;
+    }
 }
