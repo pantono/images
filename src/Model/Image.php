@@ -9,6 +9,7 @@ use Pantono\Database\Traits\SavableModel;
 use Pantono\Contracts\Attributes\FieldName;
 use Pantono\Images\Images;
 
+#[Locator(methodName: 'getImageById', className: Images::class)]
 class Image
 {
     use SavableModel;
@@ -115,7 +116,7 @@ class Image
         $this->sizes = $sizes;
     }
 
-    public function getSizeByType(ImageSizeType $type):?ImageSize
+    public function getSizeByType(ImageSizeType $type): ?ImageSize
     {
         foreach ($this->sizes as $size) {
             if ($size->getType()->getId() === $type->getId()) {
