@@ -143,6 +143,9 @@ class Images
         $imageSize->setType($imageSizeType);
         $imageSize->setDateCreated(new \DateTimeImmutable());
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $image->getFile()->getFilename();
+        if (!$image->getFile()->getFileData()) {
+            $this->fileStorage->hydrateFileData($image->getFile());
+        }
         file_put_contents($path, $image->getFile()->getFileData());
         $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit());
         $contents = file_get_contents($newPath);
