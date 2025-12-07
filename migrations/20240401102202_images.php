@@ -38,6 +38,8 @@ final class Images extends AbstractMigration
             ->addColumn('size_type_id', 'integer', ['signed' => false])
             ->addColumn('file_id', 'integer', ['null' => true, 'signed' => false])
             ->addColumn('date_created', 'datetime')
+            ->addColumn('width', 'integer')
+            ->addColumn('height', 'integer')
             ->addForeignKey('image_id', 'image', 'id')
             ->addForeignKey('size_type_id', 'image_size_type', 'id')
             ->addForeignKey('file_id', 'stored_file', 'id')

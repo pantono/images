@@ -20,6 +20,8 @@ class ImageSize
     #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id')]
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
+    private int $width;
+    private int $height;
 
     public function getId(): ?int
     {
@@ -69,5 +71,25 @@ class ImageSize
     public function setDateCreated(\DateTimeImmutable $dateCreated): void
     {
         $this->dateCreated = $dateCreated;
+    }
+
+    public function getWidth(): int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(int $width): void
+    {
+        $this->width = $width;
+    }
+
+    public function getHeight(): int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(int $height): void
+    {
+        $this->height = $height;
     }
 }
