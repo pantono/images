@@ -157,6 +157,7 @@ class Images
         $imageSize->setHeight($height);
         $newPath = ltrim($newPath, sys_get_temp_dir() . DIRECTORY_SEPARATOR);
         $file = $this->fileStorage->uploadFile($newPath, $contents);
+        unlink($newPath);
         $imageSize->setFile($file);
         $this->saveImageSize($imageSize);
         return $imageSize;
