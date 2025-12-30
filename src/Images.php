@@ -101,7 +101,9 @@ class Images
             $image->setMimeType($mime);
         }
         $this->saveImage($image);
-        unlink($path);
+        if (file_exists($path)) {
+            unlink($path);
+        }
         return $image;
     }
 
