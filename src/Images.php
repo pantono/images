@@ -154,6 +154,9 @@ class Images
         if (!$image->getFile()->getFileData()) {
             $this->fileStorage->hydrateFileData($image->getFile());
         }
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
+        }
         file_put_contents($path, $image->getFile()->getFileData());
         $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit());
         $contents = file_get_contents($newPath);
