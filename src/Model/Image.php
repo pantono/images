@@ -125,4 +125,14 @@ class Image
         }
         return null;
     }
+
+    public function getSizeByTypeId(int $id): ?ImageSize
+    {
+        foreach ($this->sizes as $size) {
+            if ($size->getType()->getId() === $id) {
+                return $size;
+            }
+        }
+        return null;
+    }
 }
