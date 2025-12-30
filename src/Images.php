@@ -78,6 +78,12 @@ class Images
     public function createImageFromStoredFile(StoredFile $file): Image
     {
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . str_replace('\\', '__', $file->getFilename());
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
+        }
+        if (!is_dir(dirname($path))) {
+            throw new \RuntimeException('Unable to create directory for image');
+        }
         $this->fileStorage->hydrateFileData($file);
         if (empty($file->getFileData())) {
             throw new \RuntimeException('File is not an image');
