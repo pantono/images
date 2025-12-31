@@ -190,7 +190,7 @@ class Images
         $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
         $file = pathinfo($sourcePath, PATHINFO_FILENAME);
         $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);
-        $path = $dir . DIRECTORY_SEPARATOR . $newHeight . 'x' . $newHeight . $file . '.' . $ext;
+        $path = $dir . DIRECTORY_SEPARATOR . $newHeight . 'x' . $newHeight . '-' . $file . '.' . $ext;
         $im->writeImage($path);
         if (!file_exists($path)) {
             throw new \RuntimeException('Unable to write image size');
