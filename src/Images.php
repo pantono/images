@@ -194,6 +194,10 @@ class Images
         if ($info === false) {
             throw new UnableToLoadImageData('Unable to read image information.');
         }
+        $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
+        $file = pathinfo($sourcePath, PATHINFO_FILENAME);
+        $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);
+        $path = $dir . DIRECTORY_SEPARATOR . $newWidth . 'x' . $newHeight . '-' . $file . '.' . $ext;
         $im = new \Imagick($sourcePath);
         $im->autoOrient();
         if ($bestFit) {
@@ -208,10 +212,6 @@ class Images
             }
         }
         $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1, $bestFit);
-        $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
-        $file = pathinfo($sourcePath, PATHINFO_FILENAME);
-        $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);
-        $path = $dir . DIRECTORY_SEPARATOR . $newWidth . 'x' . $newHeight . '-' . $file . '.' . $ext;
         $im->writeImage($path);
         if (!file_exists($path)) {
             throw new \RuntimeException('Unable to write image size');
