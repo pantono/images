@@ -37,7 +37,9 @@ class Images
 
     public function getImageById(int $id): ?Image
     {
-        return $this->hydrator->hydrate(Image::class, $this->repository->getImageById($id));
+        return $this->hydrator->hydrateCached('image_' . $id, Image::class, function () use ($id) {
+            return $this->repository->getImageById($id);
+        });
     }
 
     public function uploadNewImageFromString(string $imageData, string $filename): Image
