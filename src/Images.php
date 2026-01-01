@@ -168,7 +168,9 @@ class Images
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
         }
-        [$width, $height] = getimagesize($newPath);
+        $size = $this->getImageSizeFromFile($newPath);
+        $width = $size['width'];
+        $height = $size['height'];
         $imageSize->setWidth($width);
         $imageSize->setHeight($height);
         $newPath = ltrim($newPath, sys_get_temp_dir() . DIRECTORY_SEPARATOR);
