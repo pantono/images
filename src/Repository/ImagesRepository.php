@@ -58,4 +58,9 @@ class ImagesRepository extends MysqlRepository
     {
         return $this->selectSingleRow('image_size', 'id', $id);
     }
+
+    public function deleteImageSize(ImageSize $size): void
+    {
+        $this->getDb()->delete('image_size', ['id=?' => $size->getId()]);
+    }
 }

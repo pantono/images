@@ -146,6 +146,11 @@ class Images
         if ($image->getId() === null) {
             throw new ImageMustByCreatedFirst('Image must be saved before creating a new size');
         }
+        foreach ($image->getSizes() as $size) {
+            if ($size->getType()->getId() === $imageSizeType->getId()) {
+                $this->repository->deleteImageSize($size);
+            }
+        }
         $imageSize = new ImageSize();
         $imageSize->setImageId($image->getId());
         $imageSize->setType($imageSizeType);
