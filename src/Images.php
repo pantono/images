@@ -173,7 +173,9 @@ class Images
         $height = $size['height'];
         $imageSize->setWidth($width);
         $imageSize->setHeight($height);
-        $newPath = ltrim($newPath, sys_get_temp_dir() . DIRECTORY_SEPARATOR);
+        if (str_starts_with($newPath, sys_get_temp_dir() . DIRECTORY_SEPARATOR)) {
+            $newPath = substr($newPath, strlen(sys_get_temp_dir() . DIRECTORY_SEPARATOR));
+        }
         $file = $this->fileStorage->uploadFile($newPath, $contents);
         if (file_exists($newPath)) {
             unlink($newPath);
@@ -221,6 +223,7 @@ class Images
     private function getImageSizeFromFile(string $path): array
     {
         $im = new \Imagick($path);
+        $im->autoOrient();
         return ['width' => $im->getImageWidth(), 'height' => $im->getImageHeight()];
     }
 
