@@ -243,7 +243,9 @@ class Images
 
     public function getImageSizeById(int $id): ?ImageSize
     {
-        return $this->hydrator->hydrate(ImageSize::class, $this->repository->getSizeById($id));
+        return $this->hydrator->hydrateCached('image_size_' . $id, ImageSize::class, function () use ($id) {
+            return $this->repository->getSizeById($id);
+        });
     }
 
     public function getSizesForImage(Image $image): array
@@ -253,6 +255,8 @@ class Images
 
     public function getSizeTypeById(int $id): ?ImageSizeType
     {
-        return $this->hydrator->hydrate(ImageSizeType::class, $this->repository->getSizeTypeById($id));
+        return $this->hydrator->hydrateCached('image_size_type_' . $id, ImageSizeType::class, function () use ($id) {
+            return $this->repository->getSizeTypeById($id);
+        });
     }
 }
