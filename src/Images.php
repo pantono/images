@@ -195,6 +195,18 @@ class Images
             throw new UnableToLoadImageData('Unable to read image information.');
         }
         $im = new \Imagick($sourcePath);
+        $im->autoOrient();
+        if ($bestFit) {
+            $width = $im->getImageWidth();
+            $height = $im->getImageHeight();
+            $ratio = $width / $height;
+
+            if ($newWidth / $newHeight > $ratio) {
+                $newWidth = (int)($newHeight * $ratio);
+            } else {
+                $newHeight = (int)($newWidth / $ratio);
+            }
+        }
         $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1, $bestFit);
         $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
         $file = pathinfo($sourcePath, PATHINFO_FILENAME);
