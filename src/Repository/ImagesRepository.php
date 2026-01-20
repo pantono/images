@@ -2,13 +2,12 @@
 
 namespace Pantono\Images\Repository;
 
-use Pantono\Database\Repository\MysqlRepository;
+use Pantono\Database\Repository\DefaultRepository;
 use Pantono\Images\Model\Image;
-use Pantono\Contracts\Locator\UserInterface;
 use Pantono\Images\Model\ImageHistory;
 use Pantono\Images\Model\ImageSize;
 
-class ImagesRepository extends MysqlRepository
+class ImagesRepository extends DefaultRepository
 {
     public function getImageById(int $id): ?array
     {
