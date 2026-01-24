@@ -8,6 +8,7 @@ use Pantono\Storage\FileStorage;
 use Pantono\Database\Traits\SavableModel;
 use Pantono\Contracts\Attributes\FieldName;
 use Pantono\Images\Images;
+use Pantono\Contracts\Attributes\Lazy;
 
 #[Locator(methodName: 'getImageById', className: Images::class)]
 class Image
@@ -15,7 +16,7 @@ class Image
     use SavableModel;
 
     private ?int $id = null;
-    #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id')]
+    #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id'), Lazy]
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
@@ -25,7 +26,7 @@ class Image
     /**
      * @var ImageSize[]
      */
-    #[Locator(methodName: 'getSizesForImage', className: Images::class), FieldName('$this')]
+    #[Locator(methodName: 'getSizesForImage', className: Images::class), FieldName('$this'), Lazy]
     private array $sizes = [];
 
     public function getId(): ?int
