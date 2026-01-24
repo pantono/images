@@ -17,7 +17,7 @@ class Image
 
     private ?int $id = null;
     #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id'), Lazy]
-    private StoredFile $file;
+    private ?StoredFile $file = null;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
     private int $width;
@@ -39,12 +39,12 @@ class Image
         $this->id = $id;
     }
 
-    public function getFile(): StoredFile
+    public function getFile(): ?StoredFile
     {
         return $this->file;
     }
 
-    public function setFile(StoredFile $file): void
+    public function setFile(?StoredFile $file): void
     {
         $this->file = $file;
     }
