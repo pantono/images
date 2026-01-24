@@ -9,7 +9,7 @@
     "pantono/contracts": "^1.0",
     "pantono/hydrator": "^1.0",
     "symfony/event-dispatcher": "^7.0",
-    "robmorgan/phinx": "^0.16.0",
+    "pantono/phinx": "^0.16.0",
     "pantono/queue": "^1.0",
     "pantono/storage": "^1.0",
     "ext-fileinfo": "*",
