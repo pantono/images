@@ -19,6 +19,17 @@ class ImagesRepository extends DefaultRepository
         return $this->selectRowsByValues('image_size', ['image_id' => $image->getId()]);
     }
 
+    /**
+     * @param array<int,int> $ids
+     * @return array<int, mixed>
+     */
+    public function getSizesForImages(array $ids): array
+    {
+        $select = $this->getDb()->select()->from('image_size')
+            ->where('image_id in (?)', $ids);
+        return $this->getDb()->fetchAll($select);
+    }
+
     public function getHistoryForImage(Image $image): array
     {
         return $this->selectRowsByValues('image_history', ['image_id' => $image->getId()], 'date DESC');
