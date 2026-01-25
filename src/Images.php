@@ -253,7 +253,7 @@ class Images
 
     public function getSizesForImage(Image $image): array
     {
-        return $this->hydrator->hydrateSetCached('image_size_' . $image->getId(), ImageSize::class, function () use ($image) {
+        return $this->hydrator->hydrateSetCached('image_sizes_' . $image->getId(), ImageSize::class, function () use ($image) {
             return $this->repository->getSizesForImage($image);
         });
     }
