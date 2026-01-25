@@ -118,7 +118,7 @@ class Images
         $event->setCurrent($image);
         $this->dispatcher->dispatch($event);
 
-        $this->repository->saveImage($image);
+        $this->repository->saveModel($image);
 
         $event = new PostImageSaveEvent();
         $event->setCurrent($image);
@@ -157,6 +157,9 @@ class Images
         $imageSize->setImageId($image->getId());
         $imageSize->setType($imageSizeType);
         $imageSize->setDateCreated(new \DateTimeImmutable());
+        if (!$image->getFile()) {
+            throw new \RuntimeException('Image file is not set');
+        }
         $path = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $image->getFile()->getFilename();
         if (!$image->getFile()->getFileData()) {
             $this->fileStorage->hydrateFileData($image->getFile());

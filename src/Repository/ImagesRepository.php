@@ -24,14 +24,6 @@ class ImagesRepository extends DefaultRepository
         return $this->selectRowsByValues('image_history', ['image_id' => $image->getId()], 'date DESC');
     }
 
-    public function saveImage(Image $image): void
-    {
-        $id = $this->insertOrUpdate('image', 'id', $image->getId(), $image->getAllData());
-        if ($id) {
-            $image->setId($id);
-        }
-    }
-
     public function saveImageSize(ImageSize $imageSize): void
     {
         $id = $this->insertOrUpdate('image_size', 'id', $imageSize->getId(), $imageSize->getAllData());

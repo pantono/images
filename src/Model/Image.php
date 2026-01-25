@@ -9,9 +9,11 @@ use Pantono\Database\Traits\SavableModel;
 use Pantono\Contracts\Attributes\FieldName;
 use Pantono\Images\Images;
 use Pantono\Contracts\Attributes\Lazy;
+use Pantono\Contracts\Attributes\DatabaseTable;
+use Pantono\Contracts\Application\Interfaces\SavableInterface;
 
-#[Locator(methodName: 'getImageById', className: Images::class)]
-class Image
+#[Locator(methodName: 'getImageById', className: Images::class), DatabaseTable(table: 'image', idColumn: 'id')]
+class Image implements SavableInterface
 {
     use SavableModel;
 
@@ -101,7 +103,7 @@ class Image
 
     public function getUrl(): ?string
     {
-        return $this->getFile()->getUri();
+        return $this->getFile()?->getUri();
     }
 
     public function getSizes(): array

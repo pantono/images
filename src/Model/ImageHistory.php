@@ -4,8 +4,11 @@ namespace Pantono\Images\Model;
 
 use Pantono\Contracts\Locator\UserInterface;
 use Pantono\Database\Traits\SavableModel;
+use Pantono\Contracts\Application\Interfaces\SavableInterface;
+use Pantono\Contracts\Attributes\DatabaseTable;
 
-class ImageHistory
+#[DatabaseTable(table: 'image_history', idColumn: 'id')]
+class ImageHistory implements SavableInterface
 {
     use SavableModel;
 

@@ -8,8 +8,11 @@ use Pantono\Contracts\Attributes\Locator;
 use Pantono\Contracts\Attributes\FieldName;
 use Pantono\Storage\FileStorage;
 use Pantono\Images\Images;
+use Pantono\Contracts\Application\Interfaces\SavableInterface;
+use Pantono\Contracts\Attributes\DatabaseTable;
 
-class ImageSize
+#[DatabaseTable(table: 'image_size', idColumn: 'id')]
+class ImageSize implements SavableInterface
 {
     use SavableModel;
 

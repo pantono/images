@@ -2,8 +2,15 @@
 
 namespace Pantono\Images\Model;
 
-class ImageSizeType
+use Pantono\Contracts\Application\Interfaces\SavableInterface;
+use Pantono\Database\Traits\SavableModel;
+use Pantono\Contracts\Attributes\DatabaseTable;
+
+#[DatabaseTable(table: 'image_size_type', idColumn: 'id')]
+class ImageSizeType implements SavableInterface
 {
+    use SavableModel;
+
     private ?int $id = null;
     private string $name;
     private int $height;
