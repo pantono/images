@@ -12,8 +12,8 @@ use Pantono\Contracts\Attributes\Lazy;
 use Pantono\Contracts\Attributes\DatabaseTable;
 use Pantono\Contracts\Application\Interfaces\SavableInterface;
 use Pantono\Contracts\Attributes\EagerLoad;
-use Pantono\Database\Attributes\OneToOne;
-use Pantono\Database\Attributes\OneToMany;
+use Pantono\Contracts\Attributes\Database\OneToOne;
+use Pantono\Contracts\Attributes\Database\OneToMany;
 
 #[Locator(methodName: 'getImageById', className: Images::class), DatabaseTable(table: 'image', idColumn: 'id'), EagerLoad]
 class Image implements SavableInterface
@@ -21,7 +21,7 @@ class Image implements SavableInterface
     use SavableModel;
 
     private ?int $id = null;
-    #[FieldName('file_id'), Lazy, OneToOne(targetModel: StoredFile::class)]
+    #[FieldName('file_id'), OneToOne(targetModel: StoredFile::class)]
     private ?StoredFile $file = null;
     private \DateTimeImmutable $dateCreated;
     private bool $deleted;
