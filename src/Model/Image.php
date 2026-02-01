@@ -13,6 +13,7 @@ use Pantono\Contracts\Attributes\DatabaseTable;
 use Pantono\Contracts\Application\Interfaces\SavableInterface;
 use Pantono\Contracts\Attributes\EagerLoad;
 use Pantono\Database\Attributes\OneToOne;
+use Pantono\Database\Attributes\OneToMany;
 
 #[Locator(methodName: 'getImageById', className: Images::class), DatabaseTable(table: 'image', idColumn: 'id'), EagerLoad]
 class Image implements SavableInterface
@@ -30,7 +31,7 @@ class Image implements SavableInterface
     /**
      * @var ImageSize[]
      */
-    #[Locator(methodName: 'getSizesForImage', className: Images::class), FieldName('$this'), Lazy]
+    #[Lazy, OneToMany(targetModel: ImageSize::class, mappedBy: 'image_id')]
     private array $sizes = [];
 
     public function getId(): ?int
