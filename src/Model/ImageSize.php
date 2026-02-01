@@ -8,7 +8,7 @@ use Pantono\Contracts\Attributes\FieldName;
 use Pantono\Contracts\Application\Interfaces\SavableInterface;
 use Pantono\Contracts\Attributes\DatabaseTable;
 use Pantono\Contracts\Attributes\EagerLoad;
-use Pantono\Database\Attributes\OneToOne;
+use Pantono\Contracts\Attributes\Database\OneToOne;
 
 #[DatabaseTable(table: 'image_size', idColumn: 'id'), EagerLoad]
 class ImageSize implements SavableInterface
