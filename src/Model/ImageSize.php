@@ -4,23 +4,22 @@ namespace Pantono\Images\Model;
 
 use Pantono\Storage\Model\StoredFile;
 use Pantono\Database\Traits\SavableModel;
-use Pantono\Contracts\Attributes\Locator;
 use Pantono\Contracts\Attributes\FieldName;
-use Pantono\Storage\FileStorage;
-use Pantono\Images\Images;
 use Pantono\Contracts\Application\Interfaces\SavableInterface;
 use Pantono\Contracts\Attributes\DatabaseTable;
+use Pantono\Contracts\Attributes\EagerLoad;
+use Pantono\Database\Attributes\OneToOne;
 
-#[DatabaseTable(table: 'image_size', idColumn: 'id')]
+#[DatabaseTable(table: 'image_size', idColumn: 'id'), EagerLoad]
 class ImageSize implements SavableInterface
 {
     use SavableModel;
 
     private ?int $id = null;
     private int $imageId;
-    #[Locator(methodName: 'getSizeTypeById', className: Images::class), FieldName('size_type_id')]
+    #[FieldName('size_type_id'), OneToOne(targetModel: ImageSizeType::class)]
     private ImageSizeType $type;
-    #[Locator(methodName: 'getFileById', className: FileStorage::class), FieldName('file_id')]
+    #[FieldName('file_id'), OneToOne(targetModel: StoredFile::class)]
     private StoredFile $file;
     private \DateTimeImmutable $dateCreated;
     private int $width;
