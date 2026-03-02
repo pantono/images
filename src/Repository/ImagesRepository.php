@@ -6,6 +6,7 @@ use Pantono\Database\Repository\DefaultRepository;
 use Pantono\Images\Model\Image;
 use Pantono\Images\Model\ImageHistory;
 use Pantono\Images\Model\ImageSize;
+use Doctrine\DBAL\ArrayParameterType;
 
 class ImagesRepository extends DefaultRepository
 {
@@ -25,8 +26,10 @@ class ImagesRepository extends DefaultRepository
      */
     public function getSizesForImages(array $ids): array
     {
-        $select = $this->getDb()->select()->from('image_size')
-            ->where('image_id in (?)', $ids);
+        $select = $this->getDb()->select('is')->from('image_size', 'is')
+            ->where('is.image_id in (:ids)')
+            ->setParameter('ids', $ids, ArrayParameterType::INTEGER);
+
         return $this->getDb()->fetchAll($select);
     }
 
