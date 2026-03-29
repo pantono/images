@@ -66,6 +66,6 @@ class ImagesRepository extends DefaultRepository
 
     public function deleteImageSize(ImageSize $size): void
     {
-        $this->getDb()->delete('image_size', ['id=?' => $size->getId()]);
+        $this->getDb()->delete('image_size', ['id' => $size->getId()]);
     }
 }
