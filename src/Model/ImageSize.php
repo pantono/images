@@ -18,9 +18,9 @@ class ImageSize implements SavableInterface
     private ?int $id = null;
     private int $imageId;
     #[FieldName('size_type_id'), OneToOne(targetModel: ImageSizeType::class)]
-    private ImageSizeType $type;
+    private ?ImageSizeType $type = null;
     #[FieldName('file_id'), OneToOne(targetModel: StoredFile::class)]
-    private StoredFile $file;
+    private ?StoredFile $file = null;
     private \DateTimeImmutable $dateCreated;
     private int $width;
     private int $height;
@@ -45,22 +45,22 @@ class ImageSize implements SavableInterface
         $this->imageId = $imageId;
     }
 
-    public function getType(): ImageSizeType
+    public function getType(): ?ImageSizeType
     {
         return $this->type;
     }
 
-    public function setType(ImageSizeType $type): void
+    public function setType(?ImageSizeType $type): void
     {
         $this->type = $type;
     }
 
-    public function getFile(): StoredFile
+    public function getFile(): ?StoredFile
     {
         return $this->file;
     }
 
-    public function setFile(StoredFile $file): void
+    public function setFile(?StoredFile $file): void
     {
         $this->file = $file;
     }
