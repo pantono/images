@@ -170,7 +170,7 @@ class Images
             mkdir(dirname($path), 0777, true);
         }
         file_put_contents($path, $image->getFile()->getFileData());
-        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit(), $imageSizeType->getOutputType());
+        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit(), $imageSizeType->getOutputType(), $imageSizeType->getCompressionFactor());
         $contents = file_get_contents($newPath);
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
@@ -192,7 +192,7 @@ class Images
         return $imageSize;
     }
 
-    public function performResize(string $sourcePath, int $newWidth, int $newHeight, bool $bestFit = false, ?string $outputType = null): string
+    public function performResize(string $sourcePath, int $newWidth, int $newHeight, bool $bestFit = false, ?string $outputType = null, ?int $compressionFactor = null): string
     {
         if (!file_exists($sourcePath)) {
             throw new ImageFilePathDoesNotExist('Image path does not exist for resize');
@@ -209,6 +209,9 @@ class Images
             if (!in_array($ext, self::VALID_OUTPUT_TYPES, true)) {
                 throw new \InvalidArgumentException('Invalid output type for resize');
             }
+        }
+        if ($compressionFactor !== null && ($compressionFactor < 0 || $compressionFactor > 100)) {
+            throw new \InvalidArgumentException('Invalid compression factor for resize');
         }
         $path = $dir . DIRECTORY_SEPARATOR . $newWidth . 'x' . $newHeight . '-' . $file . '.' . $ext;
         $im = new \Imagick($sourcePath);
@@ -227,6 +230,9 @@ class Images
         $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1, $bestFit);
         if ($outputType !== null) {
             $im->setImageFormat($ext);
+        }
+        if ($compressionFactor !== null) {
+            $im->setImageCompressionQuality($compressionFactor);
         }
         $im->writeImage($path);
         if (!file_exists($path)) {

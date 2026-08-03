@@ -17,6 +17,7 @@ class ImageSizeType implements SavableInterface
     private int $width;
     private bool $bestFit;
     private ?string $outputType = null;
+    private ?int $compressionFactor = null;
 
     public function getId(): ?int
     {
@@ -76,5 +77,15 @@ class ImageSizeType implements SavableInterface
     public function setOutputType(?string $outputType): void
     {
         $this->outputType = $outputType;
+    }
+
+    public function getCompressionFactor(): ?int
+    {
+        return $this->compressionFactor;
+    }
+
+    public function setCompressionFactor(?int $compressionFactor): void
+    {
+        $this->compressionFactor = $compressionFactor;
     }
 }
