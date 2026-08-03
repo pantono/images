@@ -16,6 +16,7 @@ class ImageSizeType implements SavableInterface
     private int $height;
     private int $width;
     private bool $bestFit;
+    private ?string $outputType = null;
 
     public function getId(): ?int
     {
@@ -65,5 +66,15 @@ class ImageSizeType implements SavableInterface
     public function setBestFit(bool $bestFit): void
     {
         $this->bestFit = $bestFit;
+    }
+
+    public function getOutputType(): ?string
+    {
+        return $this->outputType;
+    }
+
+    public function setOutputType(?string $outputType): void
+    {
+        $this->outputType = $outputType;
     }
 }

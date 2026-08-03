@@ -22,6 +22,8 @@ use Pantono\Images\Event\PostImageSizeSaveEvent;
 
 class Images
 {
+    private const VALID_OUTPUT_TYPES = ['jpeg', 'png', 'gif', 'avif', 'webp'];
+
     private ImagesRepository $repository;
     private Hydrator $hydrator;
     private EventDispatcher $dispatcher;
@@ -168,7 +170,7 @@ class Images
             mkdir(dirname($path), 0777, true);
         }
         file_put_contents($path, $image->getFile()->getFileData());
-        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit());
+        $newPath = $this->performResize($path, $imageSizeType->getWidth(), $imageSizeType->getHeight(), $imageSizeType->isBestFit(), $imageSizeType->getOutputType());
         $contents = file_get_contents($newPath);
         if ($contents === false) {
             throw new UnableToLoadImageData('Unable to load image data for resize');
@@ -190,7 +192,7 @@ class Images
         return $imageSize;
     }
 
-    public function performResize(string $sourcePath, int $newWidth, int $newHeight, bool $bestFit = false): string
+    public function performResize(string $sourcePath, int $newWidth, int $newHeight, bool $bestFit = false, ?string $outputType = null): string
     {
         if (!file_exists($sourcePath)) {
             throw new ImageFilePathDoesNotExist('Image path does not exist for resize');
@@ -202,6 +204,12 @@ class Images
         $dir = pathinfo($sourcePath, PATHINFO_DIRNAME);
         $file = pathinfo($sourcePath, PATHINFO_FILENAME);
         $ext = pathinfo($sourcePath, PATHINFO_EXTENSION);
+        if ($outputType !== null) {
+            $ext = strtolower($outputType);
+            if (!in_array($ext, self::VALID_OUTPUT_TYPES, true)) {
+                throw new \InvalidArgumentException('Invalid output type for resize');
+            }
+        }
         $path = $dir . DIRECTORY_SEPARATOR . $newWidth . 'x' . $newHeight . '-' . $file . '.' . $ext;
         $im = new \Imagick($sourcePath);
         $im->autoOrient();
@@ -217,6 +225,9 @@ class Images
             }
         }
         $im->resizeImage($newWidth, $newHeight, Imagick::FILTER_LANCZOS, 1, $bestFit);
+        if ($outputType !== null) {
+            $im->setImageFormat($ext);
+        }
         $im->writeImage($path);
         if (!file_exists($path)) {
             throw new \RuntimeException('Unable to write image size');

@@ -125,7 +125,7 @@ class Image implements SavableInterface
     public function getSizeByType(ImageSizeType $type): ?ImageSize
     {
         foreach ($this->sizes as $size) {
-            if ($size->getType()->getId() === $type->getId()) {
+            if ($size->getType()?->getId() === $type->getId()) {
                 return $size;
             }
         }
@@ -135,7 +135,7 @@ class Image implements SavableInterface
     public function getSizeByTypeId(int $id): ?ImageSize
     {
         foreach ($this->sizes as $size) {
-            if ($size->getType()->getId() === $id) {
+            if ($size->getType()?->getId() === $id) {
                 return $size;
             }
         }
