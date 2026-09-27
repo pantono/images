@@ -5,8 +5,9 @@ namespace Pantono\Images\Model;
 use Pantono\Contracts\Application\Interfaces\SavableInterface;
 use Pantono\Database\Traits\SavableModel;
 use Pantono\Contracts\Attributes\DatabaseTable;
+use Pantono\Contracts\Attributes\EagerLoad;
 
-#[DatabaseTable(table: 'image_size_type', idColumn: 'id')]
+#[DatabaseTable(table: 'image_size_type', idColumn: 'id'), EagerLoad]
 class ImageSizeType implements SavableInterface
 {
     use SavableModel;
