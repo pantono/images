@@ -15,7 +15,7 @@ use Pantono\Contracts\Attributes\EagerLoad;
 use Pantono\Contracts\Attributes\Database\OneToOne;
 use Pantono\Contracts\Attributes\Database\OneToMany;
 
-#[Locator(methodName: 'getImageById', className: Images::class), DatabaseTable(table: 'image', idColumn: 'id'), EagerLoad]
+#[DatabaseTable(table: 'image', idColumn: 'id'), EagerLoad]
 class Image implements SavableInterface
 {
     use SavableModel;
